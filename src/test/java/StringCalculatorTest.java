@@ -36,4 +36,12 @@ public class StringCalculatorTest {
         int multi = calc.add(s);
         Assertions.assertEquals(6,multi);
     }
+
+    @Test
+    public void newLineSplit(){
+        String s = "1\n2,3";
+        StringCalculator calc = new StringCalculator();
+        int multi = calc.add(s);
+        Assertions.assertEquals(6,multi);
+    }
 }
