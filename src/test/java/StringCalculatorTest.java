@@ -28,4 +28,12 @@ public class StringCalculatorTest {
         int two = calc.add(s);
         Assertions.assertEquals(3,two);
     }
+
+    @Test
+    public void manyNumbers(){
+        String s = "1,2,3";
+        StringCalculator calc = new StringCalculator();
+        int multi = calc.add(s);
+        Assertions.assertEquals(6,multi);
+    }
 }

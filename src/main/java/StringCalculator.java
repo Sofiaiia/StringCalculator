@@ -4,8 +4,15 @@ public class StringCalculator {
         if(numbers.isEmpty()){
             return 0;
         }else if(numbers.contains(",")){
-            String[] array = numbers.split(",",2);
-            return toInteger(array[0]) + toInteger(array[1]);
+            String[] array = numbers.split(",");
+            //unknown amout uf numbers!!
+            int total = 0;
+            int index = 0;
+            for (String s: array) {
+                total += toInteger(array[index]);
+                index++;
+            }
+            return total;
         }else{
             return toInteger(numbers);
         }
