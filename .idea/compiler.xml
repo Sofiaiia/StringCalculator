@@ -6,11 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="string-calculator" />
+        <module name="StringCalculator" />
+        <module name="lab1TDD" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="string-calculator" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
