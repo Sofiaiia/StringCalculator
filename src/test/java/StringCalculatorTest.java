@@ -1,7 +1,8 @@
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringCalculatorTest {
 
@@ -51,5 +52,17 @@ public class StringCalculatorTest {
         StringCalculator calc = new StringCalculator();
         int multi = calc.add(s);
         Assertions.assertEquals(3,multi);
+    }
+
+    @Test()
+    public void negativeNumber(){
+        String s = "-1,2,3";
+        StringCalculator calc = new StringCalculator();
+
+        NumberFormatException exeption = assertThrows(NumberFormatException.class, () ->{
+            calc.add(s);
+        });
+
+        assertEquals("Negatives not allowed -1", exeption.getMessage());
     }
 }

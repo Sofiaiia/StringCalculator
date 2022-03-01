@@ -9,10 +9,14 @@ public class StringCalculator {
         }else{
             String[] array = splitString(numbers);
             int total = 0;
-            int index = 0;
             for (String s: array) {
-                total += toInteger(array[index]);
-                index++;
+                 int number = toInteger(s);
+                 if(number > 0){
+                     total += number;
+                 }
+                 else {
+                     throw new NumberFormatException("Negatives not allowed " + number);
+                 }
             }
             return total;
         }
@@ -23,7 +27,6 @@ public class StringCalculator {
     }
 
     private String[] splitString(String num){
-        System.out.println(num);
         if(num.startsWith("//")){
             Matcher matcher = Pattern.compile("//(.)\\n(.*)").matcher(num);
             matcher.matches();
