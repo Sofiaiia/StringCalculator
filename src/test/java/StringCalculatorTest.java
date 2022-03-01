@@ -44,4 +44,12 @@ public class StringCalculatorTest {
         int multi = calc.add(s);
         Assertions.assertEquals(6,multi);
     }
+
+    @Test
+    public void newDelimiterSplit(){
+        String s = "//;\n1;2";
+        StringCalculator calc = new StringCalculator();
+        int multi = calc.add(s);
+        Assertions.assertEquals(3,multi);
+    }
 }
