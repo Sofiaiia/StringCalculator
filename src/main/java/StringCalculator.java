@@ -10,20 +10,15 @@ public class StringCalculator {
             String[] array = splitString(numbers);
             int total = 0;
             for (String s: array) {
-                 int number = toInteger(s);
+                 int number = Integer.parseInt(s);
                  if(number > 0){
                      total += number;
-                 }
-                 else {
+                 }else {
                      throw new NumberFormatException("Negatives not allowed " + number);
                  }
             }
             return total;
         }
-    }
-
-    private int toInteger(String s){
-        return Integer.parseInt(s);
     }
 
     private String[] splitString(String num){
@@ -32,7 +27,6 @@ public class StringCalculator {
             matcher.matches();
             String delimiter = matcher.group(1);
             String toSplit = matcher.group(2);
-
             return toSplit.split(Pattern.quote(delimiter));
         }else{
             return num.split(",|\n");
