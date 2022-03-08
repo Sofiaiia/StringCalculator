@@ -1,15 +1,19 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class StringCalculatorTest {
 
     @Test
     public void EmptyString(){
         String s = "";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int empty = calc.add(s);
         Assertions.assertEquals(0,empty);
     }
@@ -17,7 +21,8 @@ public class StringCalculatorTest {
     @Test
     public void oneNumber(){
         String s = "1";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int one = calc.add(s);
         Assertions.assertEquals(1,one);
     }
@@ -25,7 +30,8 @@ public class StringCalculatorTest {
     @Test
     public void twoNumbers(){
         String s = "1,2";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int two = calc.add(s);
         Assertions.assertEquals(3,two);
     }
@@ -33,7 +39,8 @@ public class StringCalculatorTest {
     @Test
     public void manyNumbers(){
         String s = "1,2,3";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int multi = calc.add(s);
         Assertions.assertEquals(6,multi);
     }
@@ -41,7 +48,8 @@ public class StringCalculatorTest {
     @Test
     public void newLineSplit(){
         String s = "1\n2,3";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int multi = calc.add(s);
         Assertions.assertEquals(6,multi);
     }
@@ -49,7 +57,8 @@ public class StringCalculatorTest {
     @Test
     public void newDelimiterSplit(){
         String s = "//;\n1;2";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
         int multi = calc.add(s);
         Assertions.assertEquals(3,multi);
     }
@@ -57,12 +66,21 @@ public class StringCalculatorTest {
     @Test()
     public void negativeNumber(){
         String s = "-1,2,3";
-        StringCalculator calc = new StringCalculator();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
 
         NumberFormatException exeption = assertThrows(NumberFormatException.class, () ->{
             calc.add(s);
         });
 
         assertEquals("Negatives not allowed -1", exeption.getMessage());
+    }
+    @Test
+    public void testLogger(){
+        String s = "1001,3000";
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
+        calc.add(s);
+        verify(logger,times(2));
     }
 }
