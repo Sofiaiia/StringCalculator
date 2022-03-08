@@ -77,10 +77,10 @@ public class StringCalculatorTest {
     }
     @Test
     public void testLogger(){
-        String s = "1001,3000";
+        String s = "1001";
         Logger logger = mock(Logger.class);
         StringCalculator calc = new StringCalculator(logger);
         calc.add(s);
-        verify(logger,times(2));
+        verify(logger,times(1)).log(1001);
     }
 }
