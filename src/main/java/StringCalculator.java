@@ -41,4 +41,10 @@ public class StringCalculator {
             return num.split(",|\n");
         }
     }
+
+    public static void main() {
+        System.out.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
+        //System.out.println(" ");
+        //System.out.println("");
+    }
 }

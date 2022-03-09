@@ -4,10 +4,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class StringCalculatorTest {
+
+    private PrintStream originalSystemOut;
+    private ByteArrayOutputStream systemOutContent;
 
     @Test
     public void EmptyString(){
@@ -82,5 +88,14 @@ public class StringCalculatorTest {
         StringCalculator calc = new StringCalculator(logger);
         calc.add(s);
         verify(logger,times(1)).log(1001);
+    }
+
+    @Test
+    public void welcomeText(){
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        StringCalculator.main();
+        assertEquals("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'",out.toString());
     }
 }
