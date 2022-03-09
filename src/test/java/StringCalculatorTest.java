@@ -4,16 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class StringCalculatorTest {
-
-    private PrintStream originalSystemOut;
-    private ByteArrayOutputStream systemOutContent;
 
     @Test
     public void EmptyString(){
@@ -95,7 +91,55 @@ public class StringCalculatorTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        StringCalculator.main();
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
+        calc.welcomeMessage();
         assertEquals("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'",out.toString());
+    }
+
+    @Test
+    public void testInput(){
+        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\n".getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
+        calc.getInput();
+
+        assertEquals("The result is 6",out.toString());
+    }
+    @Test
+    public void testMultipleInput(){
+
+        Logger logger = mock(Logger.class);
+        StringCalculator calc = new StringCalculator(logger);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        String simulatedUserInput = "scalc '1,2,3'\n" + System.getProperty("line.separator")
+                + "scalc '1,2,4'\n" + System.getProperty("line.separator") + " ";
+
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+        calc.loop();
+
+        System.setIn(savedStandardInputStream);
+
+        StringWriter expectedStringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(expectedStringWriter);
+
+        printWriter.println("The result is 6");
+        printWriter.println("The result is 7");
+        printWriter.close();
+
+        String expected = expectedStringWriter.toString();
+
+        assertEquals(expected, out.toString().trim());
+
     }
 }

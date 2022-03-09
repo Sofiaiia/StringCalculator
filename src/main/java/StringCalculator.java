@@ -1,12 +1,16 @@
+import javax.swing.*;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringCalculator {
 
     private final Logger logger;
+    private final Scanner scan;
 
     public StringCalculator(Logger logger){
         this.logger = logger;
+        this.scan = new Scanner(System.in);
     }
 
     public int add(String numbers){
@@ -42,9 +46,37 @@ public class StringCalculator {
         }
     }
 
-    public static void main() {
+    public void welcomeMessage(){
         System.out.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
-        //System.out.println(" ");
-        //System.out.println("");
+    }
+
+    public boolean getInput(){
+        String input = scan.nextLine();
+        if (input.equals(" ")){
+            return false;
+        }
+        String s = input.split(" ")[1];
+        s = s.replace("'","");
+        int result = add(s);
+        System.out.print("The result is " + result);
+        return true;
+    }
+
+    public void loop(){
+        boolean toContinue;
+        do{
+             toContinue = getInput();
+        }while(toContinue);
+    }
+
+    public void start(){
+        welcomeMessage();
+        getInput();
+    }
+
+    public static void main(String[] args) {
+        Logger logger = new LoggerStub();
+        StringCalculator calc = new StringCalculator(logger);
+        calc.start();
     }
 }
