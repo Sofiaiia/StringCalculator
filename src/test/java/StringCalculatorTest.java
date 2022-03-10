@@ -88,58 +88,58 @@ public class StringCalculatorTest {
 
     @Test
     public void welcomeText(){
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
-
-        Logger logger = mock(Logger.class);
-        StringCalculator calc = new StringCalculator(logger);
-        calc.welcomeMessage();
-        assertEquals("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'",out.toString());
-    }
-
-    @Test
-    public void testInput(){
-        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\n".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());
         System.setIn(in);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        Logger logger = mock(Logger.class);
-        StringCalculator calc = new StringCalculator(logger);
-        calc.getInput();
-
-        assertEquals("The result is 6",out.toString());
+        StringCalculator.main(new String[]{});
+        assertEquals("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'",out.toString());
     }
-    @Test
-    public void testMultipleInput(){
 
-        Logger logger = mock(Logger.class);
-        StringCalculator calc = new StringCalculator(logger);
+    @Test
+    public void testInput(){
+        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\n\n".getBytes());
+        System.setIn(in);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        String simulatedUserInput = "scalc '1,2,3'\n" + System.getProperty("line.separator")
-                + "scalc '1,2,4'\n" + System.getProperty("line.separator") + " ";
-
-        InputStream savedStandardInputStream = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-        calc.loop();
-
-        System.setIn(savedStandardInputStream);
+        StringCalculator.main(new String[]{});
 
         StringWriter expectedStringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(expectedStringWriter);
 
-        printWriter.println("The result is 6");
-        printWriter.println("The result is 7");
+        printWriter.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
+        printWriter.print("The result is 6");
         printWriter.close();
 
         String expected = expectedStringWriter.toString();
 
         assertEquals(expected, out.toString().trim());
+    }
+    @Test
+    public void testMultipleInput(){
 
+        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\nscalc '1,2,4'\n".getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        StringCalculator.main(new String[]{});
+
+        StringWriter expectedStringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(expectedStringWriter);
+
+        printWriter.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
+        printWriter.print("The result is 6");
+        printWriter.print("The result is 7");
+        printWriter.close();
+
+        String expected = expectedStringWriter.toString();
+
+        assertEquals(expected, out.toString().trim());
     }
 }

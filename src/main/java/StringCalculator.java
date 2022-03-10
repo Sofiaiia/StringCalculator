@@ -51,10 +51,10 @@ public class StringCalculator {
     }
 
     public boolean getInput(){
-        String input = scan.nextLine();
-        if (input.equals(" ")){
+        if (!scan.hasNextLine()){
             return false;
         }
+        String input = scan.nextLine();
         String s = input.split(" ")[1];
         s = s.replace("'","");
         int result = add(s);
@@ -71,7 +71,7 @@ public class StringCalculator {
 
     public void start(){
         welcomeMessage();
-        getInput();
+        loop();
     }
 
     public static void main(String[] args) {
