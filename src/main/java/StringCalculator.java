@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,13 +53,33 @@ public class StringCalculator {
     }
 
     public boolean getInput(){
+        //FUNKAR INTE ATT STOPPA MED MANUELL INPUT
         if (!scan.hasNextLine()){
             return false;
         }
         String input = scan.nextLine();
         String s = input.split(" ")[1];
         s = s.replace("'","");
-        int result = add(s);
+        int result = 0;
+        if(s.startsWith("//")){
+            Matcher matcher = Pattern.compile("\\[([^\\]]+)").matcher(s);
+            List<String> tags = new ArrayList<>();
+
+            int pos = -1;
+            while (matcher.find(pos+1)){
+                pos = matcher.start();
+                tags.add(matcher.group(1));
+            }
+            String toSplit = s.split("\\.")[1];
+            for (String find:tags){
+                toSplit = toSplit.replace(find,",");
+            }
+
+            result = add(toSplit);
+        }else{
+            result = add(s);
+        }
+
         System.out.print("The result is " + result);
         return true;
     }

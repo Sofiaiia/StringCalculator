@@ -88,7 +88,7 @@ public class StringCalculatorTest {
 
     @Test
     public void welcomeText(){
-        ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("".getBytes());
         System.setIn(in);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -100,7 +100,7 @@ public class StringCalculatorTest {
 
     @Test
     public void testInput(){
-        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\n\n".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("scalc '1,2,3'\n".getBytes());
         System.setIn(in);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -135,6 +135,27 @@ public class StringCalculatorTest {
 
         printWriter.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
         printWriter.print("The result is 6");
+        printWriter.print("The result is 7");
+        printWriter.close();
+
+        String expected = expectedStringWriter.toString();
+
+        assertEquals(expected, out.toString().trim());
+    }
+    @Test
+    public void testComplexInput(){
+        ByteArrayInputStream in = new ByteArrayInputStream("scalc '//[***][%%%].1***2%%%4'\n".getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        StringCalculator.main(new String[]{});
+
+        StringWriter expectedStringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(expectedStringWriter);
+
+        printWriter.print("Welcome to our String Calculator, Enter number separated with ',' or '\n' enter an own delimiter with structure '//<delimiter>\\\\n<numbers>'");
         printWriter.print("The result is 7");
         printWriter.close();
 
