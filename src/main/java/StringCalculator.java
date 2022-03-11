@@ -53,11 +53,13 @@ public class StringCalculator {
     }
 
     public boolean getInput(){
-        //FUNKAR INTE ATT STOPPA MED MANUELL INPUT
         if (!scan.hasNextLine()){
             return false;
         }
         String input = scan.nextLine();
+        if(input.equals("")){
+            return false;
+        }
         String s = input.split(" ")[1];
         s = s.replace("'","");
         int result = 0;
@@ -91,14 +93,10 @@ public class StringCalculator {
         }while(toContinue);
     }
 
-    public void start(){
-        welcomeMessage();
-        loop();
-    }
-
     public static void main(String[] args) {
         Logger logger = new LoggerStub();
         StringCalculator calc = new StringCalculator(logger);
-        calc.start();
+        calc.welcomeMessage();
+        calc.loop();
     }
 }
